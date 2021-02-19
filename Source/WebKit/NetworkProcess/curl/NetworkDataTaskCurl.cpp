@@ -26,9 +26,13 @@
 #include "config.h"
 #include "NetworkDataTaskCurl.h"
 
+#include "APIError.h"
 #include "AuthenticationChallengeDisposition.h"
 #include "AuthenticationManager.h"
+#include "DataReference.h"
+#include "Download.h"
 #include "NetworkSessionCurl.h"
+#include "NetworkProcess.h"
 #include <WebCore/AuthenticationChallenge.h>
 #include <WebCore/CookieJar.h>
 #include <WebCore/CurlRequest.h>
@@ -39,6 +43,8 @@
 #include <WebCore/SameSiteInfo.h>
 #include <WebCore/ShouldRelaxThirdPartyCookieBlocking.h>
 #include <WebCore/SynchronousLoaderClient.h>
+#include <WebCore/TextEncoding.h>
+#include <wtf/FileSystem.h>
 
 namespace WebKit {
 
@@ -78,6 +84,8 @@ NetworkDataTaskCurl::NetworkDataTaskCurl(NetworkSession& session, NetworkDataTas
         m_curlRequest->setUserPass(m_initialCredential.user(), m_initialCredential.password());
         m_curlRequest->setAuthenticationScheme(ProtectionSpaceAuthenticationSchemeHTTPBasic);
     }
+    if (m_session->ignoreCertificateErrors())
+        m_curlRequest->disableServerTrustEvaluation();
     m_curlRequest->setStartTime(m_startTime);
     m_curlRequest->start();
 }
@@ -152,6 +160,7 @@ void NetworkDataTaskCurl::curlDidReceiveResponse(CurlRequest& request, CurlRespo
     m_response = ResourceResponse(receivedResponse);
     m_response.setCertificateInfo(WTFMove(receivedResponse.certificateInfo));
     m_response.setDeprecatedNetworkLoadMetrics(Box<NetworkLoadMetrics>::create(WTFMove(receivedResponse.networkLoadMetrics)));
+    m_response.m_httpRequestHeaderFields = request.resourceRequest().httpHeaderFields();
 
     handleCookieHeaders(request.resourceRequest(), receivedResponse);
 
@@ -179,7 +188,12 @@ void NetworkDataTaskCurl::curlDidReceiveBuffer(CurlRequest&, Ref<SharedBuffer>&&
     auto protectedThis = makeRef(*this);
     if (state() == State::Canceling || state() == State::Completed || (!m_client && !isDownload()))
         return;
-
+    if (isDownload()) {
+        FileSystem::PlatformFileHandle file = FileSystem::openFile(m_pendingDownloadLocation, FileSystem::FileOpenMode::Write);
+        FileSystem::writeToFile(file, buffer->data(), buffer->size());
+        FileSystem::closeFile(file);
+        return;
+    }
     m_client->didReceiveData(WTFMove(buffer));
 }
 
@@ -188,6 +202,12 @@ void NetworkDataTaskCurl::curlDidComplete(CurlRequest&, NetworkLoadMetrics&& net
     if (state() == State::Canceling || state() == State::Completed || (!m_client && !isDownload()))
         return;
 
+    if (isDownload()) {
+        auto* download = m_session->networkProcess().downloadManager().download(m_pendingDownloadID);
+        ASSERT(download);
+        download->didFinish();
+        return;
+    }
     m_client->didCompleteWithError({ }, WTFMove(networkLoadMetrics));
 }
 
@@ -198,6 +218,13 @@ void NetworkDataTaskCurl::curlDidFailWithError(CurlRequest& request, ResourceErr
 
     if (resourceError.isSSLCertVerificationError()) {
         tryServerTrustEvaluation(AuthenticationChallenge(request.resourceRequest().url(), certificateInfo, resourceError));
+        return;
+    }
+
+    if (isDownload()) {
+        auto* download = m_session->networkProcess().downloadManager().download(m_pendingDownloadID);
+        ASSERT(download);
+        download->didFail(resourceError, IPC::DataReference());
         return;
     }
 
@@ -238,6 +265,18 @@ void NetworkDataTaskCurl::invokeDidReceiveResponse()
         case PolicyAction::Ignore:
             invalidateAndCancel();
             break;
+        case PolicyAction::Download: {
+            FileSystem::deleteFile(m_pendingDownloadLocation);
+            auto& downloadManager = m_session->networkProcess().downloadManager();
+            auto download = makeUnique<Download>(downloadManager, m_pendingDownloadID, *this, *m_session, suggestedFilename());
+            auto* downloadPtr = download.get();
+            downloadManager.dataTaskBecameDownloadTask(m_pendingDownloadID, WTFMove(download));
+            downloadPtr->didCreateDestination(m_pendingDownloadLocation);
+
+            if (m_curlRequest)
+                m_curlRequest->completeDidReceiveResponse();
+            break;
+        }
         default:
             notImplemented();
             break;
@@ -320,6 +359,8 @@ void NetworkDataTaskCurl::willPerformHTTPRedirection()
             m_curlRequest->setUserPass(m_initialCredential.user(), m_initialCredential.password());
             m_curlRequest->setAuthenticationScheme(ProtectionSpaceAuthenticationSchemeHTTPBasic);
         }
+        if (m_session->ignoreCertificateErrors())
+            m_curlRequest->disableServerTrustEvaluation();
         m_curlRequest->setStartTime(m_startTime);
         m_curlRequest->start();
 
@@ -501,6 +542,18 @@ bool NetworkDataTaskCurl::shouldBlockCookies(const WebCore::ResourceRequest& req
 bool NetworkDataTaskCurl::isThirdPartyRequest(const WebCore::ResourceRequest& request)
 {
     return !WebCore::areRegistrableDomainsEqual(request.url(), request.firstPartyForCookies());
+}
+
+String NetworkDataTaskCurl::suggestedFilename() const
+{
+    if (!m_suggestedFilename.isEmpty())
+        return m_suggestedFilename;
+
+    String suggestedFilename = m_response.suggestedFilename();
+    if (!suggestedFilename.isEmpty())
+        return suggestedFilename;
+
+    return decodeURLEscapeSequences(m_response.url().lastPathComponent());
 }
 
 } // namespace WebKit

@@ -29,6 +29,7 @@
 #if HAVE(APP_SSO)
 
 #import "APINavigationAction.h"
+#import "WebPageProxy.h"
 #import "WKNavigationDelegatePrivate.h"
 #import "WKUIDelegate.h"
 #import "WKWebViewConfigurationPrivate.h"

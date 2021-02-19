@@ -123,6 +123,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)webView:(WKWebView *)webView runJavaScriptTextInputPanelWithPrompt:(NSString *)prompt defaultText:(nullable NSString *)defaultText initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(NSString * _Nullable result))completionHandler;
 
+/*! @abstract Handle a JavaScript dialog.
+ @param webView The web view invoking the delegate method.
+ @param accept Whether to accept the dialog.
+ @param value Value to use for prompt dialog.
+ */
+- (void)webView:(WKWebView *)webView handleJavaScriptDialog:(BOOL)accept value:(nullable NSString *)value;
+
 #if TARGET_OS_IPHONE
 
 /*! @abstract Allows your app to determine whether or not the given element should show a preview.

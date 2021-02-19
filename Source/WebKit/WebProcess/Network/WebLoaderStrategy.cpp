@@ -227,6 +227,11 @@ void WebLoaderStrategy::scheduleLoad(ResourceLoader& resourceLoader, CachedResou
     }
 #endif
 
+    if (m_emulateOfflineState) {
+        scheduleInternallyFailedLoad(resourceLoader);
+        return;
+    }
+
     if (!tryLoadingUsingURLSchemeHandler(resourceLoader, trackingParameters)) {
         WEBLOADERSTRATEGY_RELEASE_LOG_IF_ALLOWED("scheduleLoad: URL will be scheduled with the NetworkProcess");
 
@@ -803,7 +808,7 @@ void WebLoaderStrategy::didFinishPreconnection(uint64_t preconnectionIdentifier,
 
 bool WebLoaderStrategy::isOnLine() const
 {
-    return m_isOnLine;
+    return m_emulateOfflineState ? false : m_isOnLine;
 }
 
 void WebLoaderStrategy::addOnlineStateChangeListener(Function<void(bool)>&& listener)
@@ -823,12 +828,23 @@ void WebLoaderStrategy::isResourceLoadFinished(CachedResource& resource, Complet
 
 void WebLoaderStrategy::setOnLineState(bool isOnLine)
 {
+    if (m_emulateOfflineState) {
+        m_isOnLine = isOnLine;
+        return;
+    }
+
     if (m_isOnLine == isOnLine)
         return;
 
     m_isOnLine = isOnLine;
     for (auto& listener : m_onlineStateChangeListeners)
         listener(isOnLine);
+}
+
+void WebLoaderStrategy::setEmulateOfflineState(bool offline) {
+    m_emulateOfflineState = offline;
+    for (auto& listener : m_onlineStateChangeListeners)
+        listener(offline ? false : m_isOnLine);
 }
 
 void WebLoaderStrategy::setCaptureExtraNetworkLoadMetricsEnabled(bool enabled)

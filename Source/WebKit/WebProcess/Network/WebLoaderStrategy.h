@@ -88,6 +88,7 @@ public:
     bool isOnLine() const final;
     void addOnlineStateChangeListener(Function<void(bool)>&&) final;
     void setOnLineState(bool);
+    void setEmulateOfflineState(bool) final;
 
     static uint64_t generateLoadIdentifier();
 
@@ -134,6 +135,7 @@ private:
     HashMap<unsigned long, PreconnectCompletionHandler> m_preconnectCompletionHandlers;
     Vector<Function<void(bool)>> m_onlineStateChangeListeners;
     bool m_isOnLine { true };
+    bool m_emulateOfflineState { false };
 };
 
 } // namespace WebKit

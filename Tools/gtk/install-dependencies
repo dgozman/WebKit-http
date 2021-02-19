@@ -142,6 +142,7 @@ function installDependenciesWithApt {
         libupower-glib-dev \
         libwebp-dev \
         libwoff-dev \
+        libxcb-glx0-dev \
         libxcomposite-dev \
         libxt-dev \
         libxtst-dev \
@@ -149,6 +150,7 @@ function installDependenciesWithApt {
         libwayland-dev \
         ninja-build \
         patch \
+        patchelf \
         ruby \
         xfonts-utils"
 

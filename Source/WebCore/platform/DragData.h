@@ -47,7 +47,7 @@ typedef void* DragDataRef;
 
 #elif PLATFORM(WIN)
 typedef struct IDataObject* DragDataRef;
-#elif PLATFORM(GTK)
+#elif PLATFORM(GTK) || PLATFORM(WPE)
 namespace WebCore {
 class SelectionData;
 }
@@ -111,7 +111,7 @@ public:
     bool containsPromise() const;
 #endif
 
-#if PLATFORM(GTK)
+#if PLATFORM(GTK) || PLATFORM(WPE)
 
     DragData& operator =(const DragData& data)
     {

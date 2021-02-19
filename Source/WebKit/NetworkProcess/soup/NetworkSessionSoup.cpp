@@ -112,6 +112,11 @@ static gboolean webSocketAcceptCertificateCallback(GTlsConnection* connection, G
     return !session->soupNetworkSession().checkTLSErrors(soupURIToURL(soup_message_get_uri(soupMessage)), certificate, errors);
 }
 
+static gboolean webSocketAcceptCertificateCallbackIgnoreTLSErrors(GTlsConnection* connection, GTlsCertificate* certificate, GTlsCertificateFlags errors, NetworkSessionSoup* session)
+{
+    return TRUE;
+}
+
 static void webSocketMessageNetworkEventCallback(SoupMessage* soupMessage, GSocketClientEvent event, GIOStream* connection, NetworkSessionSoup* session)
 {
     if (event != G_SOCKET_CLIENT_TLS_HANDSHAKING)
@@ -119,6 +124,15 @@ static void webSocketMessageNetworkEventCallback(SoupMessage* soupMessage, GSock
 
     g_object_set_data(G_OBJECT(connection), "wk-soup-message", soupMessage);
     g_signal_connect(connection, "accept-certificate", G_CALLBACK(webSocketAcceptCertificateCallback), session);
+}
+
+static void webSocketMessageNetworkEventCallbackIgnoreTLSErrors(SoupMessage* soupMessage, GSocketClientEvent event, GIOStream* connection)
+{
+    if (event != G_SOCKET_CLIENT_TLS_HANDSHAKING)
+        return;
+
+    g_object_set_data(G_OBJECT(connection), "wk-soup-message", soupMessage);
+    g_signal_connect(connection, "accept-certificate", G_CALLBACK(webSocketAcceptCertificateCallbackIgnoreTLSErrors), soupMessage);
 }
 
 std::unique_ptr<WebSocketTask> NetworkSessionSoup::createWebSocketTask(NetworkSocketChannel& channel, const ResourceRequest& request, const String& protocol)
@@ -129,8 +143,12 @@ std::unique_ptr<WebSocketTask> NetworkSessionSoup::createWebSocketTask(NetworkSo
 
     GRefPtr<SoupMessage> soupMessage = adoptGRef(soup_message_new_from_uri(SOUP_METHOD_GET, soupURI.get()));
     request.updateSoupMessage(soupMessage.get(), blobRegistry());
-    if (request.url().protocolIs("wss"))
-        g_signal_connect(soupMessage.get(), "network-event", G_CALLBACK(webSocketMessageNetworkEventCallback), this);
+    if (request.url().protocolIs("wss")) {
+        if (ignoreCertificateErrors())
+          g_signal_connect(soupMessage.get(), "network-event", G_CALLBACK(webSocketMessageNetworkEventCallbackIgnoreTLSErrors), this);
+        else
+          g_signal_connect(soupMessage.get(), "network-event", G_CALLBACK(webSocketMessageNetworkEventCallback), this);
+    }
     return makeUnique<WebSocketTask>(channel, soupSession(), soupMessage.get(), protocol);
 }
 
