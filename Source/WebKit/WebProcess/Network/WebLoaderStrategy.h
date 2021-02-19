@@ -40,6 +40,7 @@ struct FetchOptions;
 namespace WebKit {
 
 class NetworkProcessConnection;
+class NetworkResourceLoadParameters;
 class WebFrame;
 class WebPage;
 class WebURLSchemeTaskProxy;
@@ -91,6 +92,7 @@ public:
     void setEmulateOfflineState(bool) final;
 
     static uint64_t generateLoadIdentifier();
+    static bool fillParametersForNetworkProcessLoad(WebCore::ResourceLoader&, const WebCore::ResourceRequest&, const WebResourceLoader::TrackingParameters&, bool shouldClearReferrerOnHTTPSToHTTPRedirect, Seconds maximumBufferingTime, NetworkResourceLoadParameters&);
 
 private:
     void scheduleLoad(WebCore::ResourceLoader&, WebCore::CachedResource*, bool shouldClearReferrerOnHTTPSToHTTPRedirect);
