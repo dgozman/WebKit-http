@@ -466,6 +466,8 @@ bool NetworkDataTaskSoup::tlsConnectionAcceptCertificate(GTlsCertificate* certif
 {
     ASSERT(m_soupMessage);
     URL url = soupURIToURL(soup_message_get_uri(m_soupMessage.get()));
+    if (m_session->ignoreCertificateErrors())
+        return true;
     auto error = static_cast<NetworkSessionSoup&>(*m_session).soupNetworkSession().checkTLSErrors(url, certificate, tlsErrors);
     if (!error)
         return true;
@@ -948,6 +950,7 @@ void NetworkDataTaskSoup::didGetHeaders()
         const char* headerValue;
         while (soup_message_headers_iter_next(&headersIter, &headerName, &headerValue))
             requestHeaders.set(String(headerName), String(headerValue));
+        m_response.m_httpRequestHeaderFields = requestHeaders;
         m_networkLoadMetrics.requestHeaders = WTFMove(requestHeaders);
     }
 }

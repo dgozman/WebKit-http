@@ -26,7 +26,6 @@
 
 #include "config.h"
 #include "NetworkProcess.h"
-
 #include "ArgumentCoders.h"
 #include "Attachment.h"
 #include "AuthenticationManager.h"
@@ -550,6 +549,41 @@ void NetworkProcess::destroySession(PAL::SessionID sessionID)
 #if ENABLE(INDEXED_DATABASE)
     removeWebIDBServerIfPossible(sessionID);
 #endif
+}
+
+void NetworkProcess::getAllCookies(PAL::SessionID sessionID, CompletionHandler<void(Vector<WebCore::Cookie>&&)>&& completionHandler)
+{
+    if (auto* networkStorageSession = storageSession(sessionID)) {
+        completionHandler(networkStorageSession->getAllCookies());
+        return;
+    }
+    completionHandler({ });
+}
+
+void NetworkProcess::setCookies(PAL::SessionID sessionID, Vector<WebCore::Cookie> cookies, CompletionHandler<void(bool)>&& completionHandler) {
+    if (auto* networkStorageSession = storageSession(sessionID)) {
+        for (auto cookie : cookies)
+            networkStorageSession->setCookie(cookie);
+        completionHandler(true);
+        return;
+    }
+    completionHandler(false);
+}
+
+void NetworkProcess::deleteAllCookies(PAL::SessionID sessionID, CompletionHandler<void(bool)>&& completionHandler)
+{
+    if (auto* networkStorageSession = storageSession(sessionID)) {
+        networkStorageSession->deleteAllCookies();
+        completionHandler(true);
+        return;
+    }
+    completionHandler(false);
+}
+
+void NetworkProcess::setIgnoreCertificateErrors(PAL::SessionID sessionID, bool ignore)
+{
+    if (auto* networkSession = this->networkSession(sessionID))
+        networkSession->setIgnoreCertificateErrors(ignore);
 }
 
 #if ENABLE(RESOURCE_LOAD_STATISTICS)

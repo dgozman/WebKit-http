@@ -1,0 +1,31 @@
+{
+    "domain": "Screencast",
+    "availability": ["web"],
+    "types": [
+        {
+            "id": "ScreencastId",
+            "type": "string",
+            "description": "Unique identifier of the screencast."
+        }
+    ],
+    "commands": [
+        {
+            "name": "start",
+            "description": "Starts recoring video to speified file.",
+            "parameters": [
+                { "name": "file", "type": "string", "description": "Output file location." },
+                { "name": "width", "type": "integer" },
+                { "name": "height", "type": "integer" },
+                { "name": "scale", "type": "number", "optional": true }
+            ],
+            "returns": [
+                { "name": "screencastId", "$ref": "ScreencastId", "description": "Unique identifier of the screencast." }
+            ]
+        },
+        {
+            "name": "stop",
+            "async": true,
+            "description": "Stops recoding video. Returns after the file has been closed."
+        }
+    ]
+}

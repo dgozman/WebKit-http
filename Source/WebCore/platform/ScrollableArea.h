@@ -108,7 +108,7 @@ public:
     void updateScrollSnapState();
 
 #if ENABLE(TOUCH_EVENTS)
-    virtual bool handleTouchEvent(const PlatformTouchEvent&);
+    WEBCORE_EXPORT virtual bool handleTouchEvent(const PlatformTouchEvent&);
 #endif
 
 #if PLATFORM(IOS_FAMILY)

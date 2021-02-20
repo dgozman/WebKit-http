@@ -43,6 +43,7 @@ public:
     virtual ~WebContextMenuProxy();
 
     virtual void show();
+    virtual void hide() {}
 
     WebPageProxy* page() const { return m_page.get(); }
 

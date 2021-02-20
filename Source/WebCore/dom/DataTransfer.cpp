@@ -493,6 +493,14 @@ Ref<DataTransfer> DataTransfer::createForDrag()
     return adoptRef(*new DataTransfer(StoreMode::ReadWrite, Pasteboard::createForDragAndDrop(), Type::DragAndDropData));
 }
 
+#if PLATFORM(MAC)
+Ref<DataTransfer> DataTransfer::createForDrag(const String& pasteboardName)
+{
+    return adoptRef(*new DataTransfer(StoreMode::ReadWrite, makeUnique<Pasteboard>(pasteboardName), Type::DragAndDropData));
+}
+#endif
+
+
 Ref<DataTransfer> DataTransfer::createForDragStartEvent(const Document& document)
 {
     auto dataTransfer = adoptRef(*new DataTransfer(StoreMode::ReadWrite, makeUnique<StaticPasteboard>(), Type::DragAndDropData));
