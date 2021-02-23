@@ -34,6 +34,7 @@
 #import "WebKit2Initialize.h"
 #import "WebPageProxy.h"
 #import "_WKUserContentWorldInternal.h"
+#import <WebKit/WKContentWorldInternal.h>
 #import <wtf/cocoa/VectorCocoa.h>
 
 @implementation _WKUserStyleSheet

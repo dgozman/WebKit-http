@@ -27,6 +27,7 @@
 #include "DrawingArea.h"
 
 #include "DrawingAreaMessages.h"
+#include "DrawingAreaProxyMessages.h"
 #include "WebPage.h"
 #include "WebPageCreationParameters.h"
 #include "WebProcess.h"
@@ -86,6 +87,13 @@ void DrawingArea::dispatchAfterEnsuringUpdatedScrollPosition(WTF::Function<void 
 RefPtr<WebCore::DisplayRefreshMonitor> DrawingArea::createDisplayRefreshMonitor(PlatformDisplayID)
 {
     return nullptr;
+}
+#endif
+
+#if PLATFORM(WIN)
+void DrawingArea::didChangeAcceleratedCompositingMode(bool enabled)
+{
+    send(Messages::DrawingAreaProxy::DidChangeAcceleratedCompositingMode(enabled));
 }
 #endif
 

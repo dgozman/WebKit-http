@@ -53,6 +53,8 @@ class PageClientImpl final : public PageClientImplCocoa
 #endif
     {
 public:
+    static void setHeadless(bool headless);
+
     PageClientImpl(NSView *, WKWebView *);
     virtual ~PageClientImpl();
 
@@ -119,6 +121,7 @@ private:
     WebCore::IntRect rootViewToScreen(const WebCore::IntRect&) override;
 #if PLATFORM(MAC)
     WebCore::IntRect rootViewToWindow(const WebCore::IntRect&) override;
+    int browserToolbarHeight() const override;
 #endif
     WebCore::IntPoint accessibilityScreenToRootView(const WebCore::IntPoint&) override;
     WebCore::IntRect rootViewToAccessibilityScreen(const WebCore::IntRect&) override;
@@ -162,6 +165,9 @@ private:
     void updateAcceleratedCompositingMode(const LayerTreeContext&) override;
     void didFirstLayerFlush(const LayerTreeContext&) override;
 
+// Paywright begin
+    RetainPtr<CGImageRef> takeSnapshotForAutomation() override;
+// Paywright end
     RefPtr<ViewSnapshot> takeViewSnapshot(Optional<WebCore::IntRect>&&) override;
     void wheelEventWasNotHandledByWebCore(const NativeWebWheelEvent&) override;
 #if ENABLE(MAC_GESTURE_EVENTS)
@@ -214,6 +220,10 @@ private:
     void exitFullScreen() override;
     void beganEnterFullScreen(const WebCore::IntRect& initialFrame, const WebCore::IntRect& finalFrame) override;
     void beganExitFullScreen(const WebCore::IntRect& initialFrame, const WebCore::IntRect& finalFrame) override;
+#endif
+
+#if ENABLE(TOUCH_EVENTS)
+    void doneWithTouchEvent(const NativeWebTouchEvent&, bool wasEventHandled) override;
 #endif
 
     void navigationGestureDidBegin() override;

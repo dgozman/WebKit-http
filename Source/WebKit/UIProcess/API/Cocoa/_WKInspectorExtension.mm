@@ -24,7 +24,10 @@
  */
 
 #import "config.h"
+#import "WKError.h"
 #import "_WKInspectorExtensionInternal.h"
+#import <wtf/BlockPtr.h>
+#import <wtf/URL.h>
 
 #import "InspectorExtensionTypes.h"
 #import "WKError.h"

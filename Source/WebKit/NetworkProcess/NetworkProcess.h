@@ -77,6 +77,7 @@ class SessionID;
 
 namespace WebCore {
 class CertificateInfo;
+struct Cookie;
 class CurlProxySettings;
 class ProtectionSpace;
 class StorageQuotaManager;
@@ -204,6 +205,11 @@ public:
     void prefetchDNS(const String&);
 
     void addWebsiteDataStore(WebsiteDataStoreParameters&&);
+
+    void getAllCookies(PAL::SessionID, CompletionHandler<void(Vector<WebCore::Cookie>&&)>&&);
+    void setCookies(PAL::SessionID, Vector<WebCore::Cookie>, CompletionHandler<void(bool)>&&);
+    void deleteAllCookies(PAL::SessionID, CompletionHandler<void(bool)>&&);
+    void setIgnoreCertificateErrors(PAL::SessionID, bool);
 
 #if ENABLE(RESOURCE_LOAD_STATISTICS)
     void clearPrevalentResource(PAL::SessionID, const RegistrableDomain&, CompletionHandler<void()>&&);

@@ -231,6 +231,16 @@
     return _processPoolConfiguration->processSwapsOnNavigation();
 }
 
+- (void)setForceOverlayScrollbars:(BOOL)force
+{
+    _processPoolConfiguration->setForceOverlayScrollbars(force);
+}
+
+- (BOOL)forceOverlayScrollbars
+{
+    return _processPoolConfiguration->forceOverlayScrollbars();
+}
+
 - (void)setPrewarmsProcessesAutomatically:(BOOL)prewarms
 {
     _processPoolConfiguration->setIsAutomaticProcessWarmingEnabled(prewarms);

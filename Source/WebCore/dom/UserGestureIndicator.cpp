@@ -102,7 +102,7 @@ UserGestureIndicator::UserGestureIndicator(Optional<ProcessingUserGestureState> 
     if (state)
         currentToken() = UserGestureToken::create(state.value(), gestureType, document);
 
-    if (document && currentToken()->processingUserGesture() && state) {
+    if (document && state && currentToken()->processingUserGesture()) {
         document->updateLastHandledUserGestureTimestamp(currentToken()->startTime());
         if (processInteractionStyle == ProcessInteractionStyle::Immediate)
             ResourceLoadObserver::shared().logUserInteractionWithReducedTimeResolution(document->topDocument());

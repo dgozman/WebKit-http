@@ -75,6 +75,7 @@
 #include "ExceptionHelpers.h"
 #include "VM.h"
 #include <limits>
+#include <wtf/DateMath.h>
 
 // icu::TimeZone and icu::BasicTimeZone features are only available in ICU C++ APIs.
 // We use these C++ APIs as an exception.
@@ -284,6 +285,10 @@ double DateCache::parseDate(JSGlobalObject* globalObject, VM& vm, const String& 
 // https://tc39.es/ecma402/#sec-defaulttimezone
 String DateCache::defaultTimeZone()
 {
+    String tz = WTF::timeZoneForAutomation();
+    if (!tz.isEmpty())
+        return tz;
+
     icu::UnicodeString timeZoneID;
     icu::UnicodeString canonicalTimeZoneID;
     auto& timeZone = *bitwise_cast<icu::TimeZone*>(timeZoneCache());
@@ -315,7 +320,9 @@ void DateCache::timeZoneCacheSlow()
 {
     // Do not use icu::TimeZone::createDefault. ICU internally has a cache for timezone and createDefault returns this cached value.
     ASSERT(!m_timeZoneCache);
-    m_timeZoneCache = std::unique_ptr<OpaqueICUTimeZone, OpaqueICUTimeZoneDeleter>(bitwise_cast<OpaqueICUTimeZone*>(icu::TimeZone::detectHostTimeZone()));
+    String override = WTF::timeZoneForAutomation();
+    auto* timezone = override.isEmpty() ? icu::TimeZone::detectHostTimeZone() : icu::TimeZone::createTimeZone(override.utf8().data());
+    m_timeZoneCache = std::unique_ptr<OpaqueICUTimeZone, OpaqueICUTimeZoneDeleter>(bitwise_cast<OpaqueICUTimeZone*>(timezone));
 }
 
 void DateCache::reset()
