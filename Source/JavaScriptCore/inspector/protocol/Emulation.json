@@ -9,8 +9,8 @@
             "parameters": [
                 { "name": "width", "type": "integer" },
                 { "name": "height", "type": "integer" },
-                { "name": "deviceScaleFactor", "type": "number" },
-                { "name": "fixedLayout", "type": "boolean" }
+                { "name": "fixedLayout", "type": "boolean" },
+                { "name": "deviceScaleFactor", "type": "number", "optional": true }
             ]
         },
         {

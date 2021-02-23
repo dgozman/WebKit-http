@@ -103,7 +103,7 @@ RefPtr<ImageBuffer> snapshotFrameRectWithClip(Frame& frame, const IntRect& image
     // Other paint behaviors are set by paintContentsForSnapshot.
     frame.view()->setPaintBehavior(paintBehavior);
 
-    float scaleFactor = frame.page()->deviceScaleFactor();
+    float scaleFactor = 1;
 
     if (frame.page()->delegatesScaling())
         scaleFactor *= frame.page()->pageScaleFactor();

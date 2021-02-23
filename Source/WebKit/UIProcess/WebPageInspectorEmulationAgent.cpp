@@ -58,7 +58,7 @@ void WebPageInspectorEmulationAgent::willDestroyFrontendAndBackend(DisconnectRea
    m_commandsToRunWhenShown.clear();
 }
 
-void WebPageInspectorEmulationAgent::setDeviceMetricsOverride(int width, int height, double deviceScaleFactor, bool fixedlayout, Ref<SetDeviceMetricsOverrideCallback>&& callback)
+void WebPageInspectorEmulationAgent::setDeviceMetricsOverride(int width, int height, bool fixedlayout, Optional<double>&& deviceScaleFactor, Ref<SetDeviceMetricsOverrideCallback>&& callback)
 {
 #if PLATFORM(GTK)
     // On gtk, fixed layout doesn't work with compositing enabled
@@ -70,7 +70,8 @@ void WebPageInspectorEmulationAgent::setDeviceMetricsOverride(int width, int hei
     }
 #endif
 
-    m_page.setCustomDeviceScaleFactor(deviceScaleFactor);
+    if (deviceScaleFactor)
+        m_page.setCustomDeviceScaleFactor(deviceScaleFactor.value());
     m_page.setUseFixedLayout(fixedlayout);
     if (!m_page.pageClient().isViewVisible() && m_page.configuration().relatedPage()) {
         m_commandsToRunWhenShown.append([this, width, height, callback = WTFMove(callback)]() mutable {

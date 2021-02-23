@@ -53,7 +53,7 @@ public:
     void didCreateFrontendAndBackend(Inspector::FrontendRouter*, Inspector::BackendDispatcher*) override;
     void willDestroyFrontendAndBackend(Inspector::DisconnectReason) override;
 
-    void setDeviceMetricsOverride(int width, int height, double deviceScaleFactor, bool fixedlayout, Ref<SetDeviceMetricsOverrideCallback>&&) override;
+    void setDeviceMetricsOverride(int width, int height, bool fixedlayout, Optional<double>&& deviceScaleFactor, Ref<SetDeviceMetricsOverrideCallback>&&) override;
     Inspector::Protocol::ErrorStringOr<void> setJavaScriptEnabled(bool enabled) override;
     Inspector::Protocol::ErrorStringOr<void> setAuthCredentials(const String&, const String&) override;
     Inspector::Protocol::ErrorStringOr<void> setActiveAndFocused(Optional<bool>&&) override;
