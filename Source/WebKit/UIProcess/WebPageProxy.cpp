@@ -3470,6 +3470,8 @@ void WebPageProxy::receivedNavigationPolicyDecision(PolicyAction policyAction, A
         policyAction = PolicyAction::Download;
 
     if (policyAction != PolicyAction::Use || !frame.isMainFrame() || !navigation) {
+        if (policyAction == PolicyAction::Download && navigation)
+            m_decidePolicyForResponseRequest = navigation->currentRequest();
         receivedPolicyDecision(policyAction, navigation, WTFMove(policies), WTFMove(navigationAction), WTFMove(sender));
         return;
     }
