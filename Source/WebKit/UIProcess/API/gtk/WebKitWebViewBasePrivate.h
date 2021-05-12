@@ -27,6 +27,7 @@
 
 #pragma once
 
+#include "AcceleratedBackingStore.h"
 #include "APIPageConfiguration.h"
 #include "InputMethodState.h"
 #include "SameDocumentNavigationType.h"
@@ -117,3 +118,5 @@ void webkitWebViewBaseSynthesizeCompositionKeyPress(WebKitWebViewBase*, const St
 void webkitWebViewBaseMakeBlank(WebKitWebViewBase*, bool);
 void webkitWebViewBasePageGrabbedTouch(WebKitWebViewBase*);
 void webkitWebViewBaseSetShouldNotifyFocusEvents(WebKitWebViewBase*, bool);
+
+WebKit::AcceleratedBackingStore* webkitWebViewBaseGetAcceleratedBackingStore(WebKitWebViewBase*);

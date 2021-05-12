@@ -5309,6 +5309,14 @@
 		EDE3A5000C7A430600956A37 /* ColorMac.h in Headers */ = {isa = PBXBuildFile; fileRef = EDE3A4FF0C7A430600956A37 /* ColorMac.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		EDEC98030AED7E170059137F /* WebCorePrefix.h in Headers */ = {isa = PBXBuildFile; fileRef = EDEC98020AED7E170059137F /* WebCorePrefix.h */; };
 		EFCC6C8F20FE914400A2321B /* CanvasActivityRecord.h in Headers */ = {isa = PBXBuildFile; fileRef = EFCC6C8D20FE914000A2321B /* CanvasActivityRecord.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		F050E16823AC9C080011CE47 /* PlatformTouchEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = F050E16623AC9C070011CE47 /* PlatformTouchEvent.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		F050E16A23AD660C0011CE47 /* Touch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F050E16923AD660C0011CE47 /* Touch.cpp */; };
+		F050E16D23AD66630011CE47 /* TouchList.h in Headers */ = {isa = PBXBuildFile; fileRef = F050E16B23AD66620011CE47 /* TouchList.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		F050E16E23AD66630011CE47 /* TouchList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F050E16C23AD66630011CE47 /* TouchList.cpp */; };
+		F050E17123AD669F0011CE47 /* TouchEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F050E16F23AD669E0011CE47 /* TouchEvent.cpp */; };
+		F050E17223AD669F0011CE47 /* TouchEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = F050E17023AD669F0011CE47 /* TouchEvent.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		F050E17423AD6A800011CE47 /* DocumentTouch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F050E17323AD6A800011CE47 /* DocumentTouch.cpp */; };
+		F050E17823AD70C50011CE47 /* PlatformTouchPoint.h in Headers */ = {isa = PBXBuildFile; fileRef = F050E17623AD70C40011CE47 /* PlatformTouchPoint.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		F12171F616A8CF0B000053CA /* WebVTTElement.h in Headers */ = {isa = PBXBuildFile; fileRef = F12171F416A8BC63000053CA /* WebVTTElement.h */; };
 		F32BDCD92363AACA0073B6AE /* UserGestureEmulationScope.h in Headers */ = {isa = PBXBuildFile; fileRef = F32BDCD72363AACA0073B6AE /* UserGestureEmulationScope.h */; };
 		F344C7141125B82C00F26EEE /* InspectorFrontendClient.h in Headers */ = {isa = PBXBuildFile; fileRef = F344C7121125B82C00F26EEE /* InspectorFrontendClient.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -16741,6 +16749,14 @@
 		EDEC98020AED7E170059137F /* WebCorePrefix.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = WebCorePrefix.h; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; };
 		EFB7287B2124C73D005C2558 /* CanvasActivityRecord.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CanvasActivityRecord.cpp; sourceTree = "<group>"; };
 		EFCC6C8D20FE914000A2321B /* CanvasActivityRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CanvasActivityRecord.h; sourceTree = "<group>"; };
+		F050E16623AC9C070011CE47 /* PlatformTouchEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlatformTouchEvent.h; sourceTree = "<group>"; };
+		F050E16923AD660C0011CE47 /* Touch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Touch.cpp; path = dom/Touch.cpp; sourceTree = SOURCE_ROOT; };
+		F050E16B23AD66620011CE47 /* TouchList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TouchList.h; path = dom/TouchList.h; sourceTree = SOURCE_ROOT; };
+		F050E16C23AD66630011CE47 /* TouchList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TouchList.cpp; path = dom/TouchList.cpp; sourceTree = SOURCE_ROOT; };
+		F050E16F23AD669E0011CE47 /* TouchEvent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TouchEvent.cpp; path = dom/TouchEvent.cpp; sourceTree = SOURCE_ROOT; };
+		F050E17023AD669F0011CE47 /* TouchEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TouchEvent.h; path = dom/TouchEvent.h; sourceTree = SOURCE_ROOT; };
+		F050E17323AD6A800011CE47 /* DocumentTouch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DocumentTouch.cpp; sourceTree = "<group>"; };
+		F050E17623AD70C40011CE47 /* PlatformTouchPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlatformTouchPoint.h; sourceTree = "<group>"; };
 		F12171F316A8BC63000053CA /* WebVTTElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WebVTTElement.cpp; sourceTree = "<group>"; };
 		F12171F416A8BC63000053CA /* WebVTTElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebVTTElement.h; sourceTree = "<group>"; };
 		F32BDCD52363AAC90073B6AE /* UserGestureEmulationScope.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UserGestureEmulationScope.cpp; sourceTree = "<group>"; };
@@ -22315,7 +22331,12 @@
 				93D6B7A62551D3ED0058DD3A /* DummySpeechRecognitionProvider.h */,
 				1AF326770D78B9440068F0C4 /* EditorClient.h */,
 				93C09A800B064F00005ABD4D /* EventHandler.cpp */,
+				F050E16F23AD669E0011CE47 /* TouchEvent.cpp */,
+				F050E17023AD669F0011CE47 /* TouchEvent.h */,
 				93C09A520B064DB3005ABD4D /* EventHandler.h */,
+				F050E16923AD660C0011CE47 /* Touch.cpp */,
+				F050E16C23AD66630011CE47 /* TouchList.cpp */,
+				F050E16B23AD66620011CE47 /* TouchList.h */,
 				E0FEF371B27C53EAC1C1FBEE /* EventSource.cpp */,
 				E0FEF371B17C53EAC1C1FBEE /* EventSource.h */,
 				E0FEF371B07C53EAC1C1FBEE /* EventSource.idl */,
@@ -27828,7 +27849,9 @@
 				B2C3D9EC0D006C1D00EF6F26 /* text */,
 				E1EE8B6B2412B2A700E794D6 /* xr */,
 				DFDB912CF8E88A6DA1AD264F /* AbortableTaskQueue.h */,
+				F050E16623AC9C070011CE47 /* PlatformTouchEvent.h */,
 				49AE2D94134EE5F90072920A /* CalculationValue.cpp */,
+				F050E17623AD70C40011CE47 /* PlatformTouchPoint.h */,
 				49AE2D95134EE5F90072920A /* CalculationValue.h */,
 				C330A22113EC196B0000B45B /* ColorChooser.h */,
 				C37CDEBC149EF2030042090D /* ColorChooserClient.h */,
@@ -30382,6 +30405,7 @@
 				BCCFBAE70B5152ED0001F1D7 /* DocumentParser.h */,
 				AD6E71AA1668899D00320C13 /* DocumentSharedObjectPool.cpp */,
 				AD6E71AB1668899D00320C13 /* DocumentSharedObjectPool.h */,
+				F050E17323AD6A800011CE47 /* DocumentTouch.cpp */,
 				6BDB5DC1227BD3B800919770 /* DocumentStorageAccess.cpp */,
 				6BDB5DC0227BD3B800919770 /* DocumentStorageAccess.h */,
 				86D982F6125C154000AD9E3D /* DocumentTiming.h */,
@@ -31412,6 +31436,7 @@
 				93C4F6EB1108F9A50099D0DB /* AccessibilityScrollbar.h in Headers */,
 				29489FC712C00F0300D83F0F /* AccessibilityScrollView.h in Headers */,
 				0709FC4E1025DEE30059CDBA /* AccessibilitySlider.h in Headers */,
+				F050E16D23AD66630011CE47 /* TouchList.h in Headers */,
 				29D7BCFA1444AF7D0070619C /* AccessibilitySpinButton.h in Headers */,
 				69A6CBAD1C6BE42C00B836E9 /* AccessibilitySVGElement.h in Headers */,
 				AAC08CF315F941FD00F1E188 /* AccessibilitySVGRoot.h in Headers */,
@@ -33414,6 +33439,7 @@
 				6E4ABCD5138EA0B70071D291 /* JSHTMLUnknownElement.h in Headers */,
 				E44614170CD6826900FADA75 /* JSHTMLVideoElement.h in Headers */,
 				81BE20D311F4BC3200915DFA /* JSIDBCursor.h in Headers */,
+				F050E17823AD70C50011CE47 /* PlatformTouchPoint.h in Headers */,
 				7C3D8EF01E0B21430023B084 /* JSIDBCursorDirection.h in Headers */,
 				C585A68311D4FB08004C3E4B /* JSIDBDatabase.h in Headers */,
 				C585A69711D4FB13004C3E4B /* JSIDBFactory.h in Headers */,
@@ -35462,9 +35488,11 @@
 				B2C3DA3A0D006C1D00EF6F26 /* TextCodec.h in Headers */,
 				26E98A10130A9FCA008EB7B2 /* TextCodecASCIIFastPath.h in Headers */,
 				DF95B14A24FDAFD300B1F4D7 /* TextCodecCJK.h in Headers */,
+				F050E16823AC9C080011CE47 /* PlatformTouchEvent.h in Headers */,
 				B2C3DA3C0D006C1D00EF6F26 /* TextCodecICU.h in Headers */,
 				B2C3DA3E0D006C1D00EF6F26 /* TextCodecLatin1.h in Headers */,
 				57EF5E601D20C83900171E60 /* TextCodecReplacement.h in Headers */,
+				F050E17223AD669F0011CE47 /* TouchEvent.h in Headers */,
 				B2C3DA400D006C1D00EF6F26 /* TextCodecUserDefined.h in Headers */,
 				B2C3DA420D006C1D00EF6F26 /* TextCodecUTF16.h in Headers */,
 				9343CB8212F25E510033C5EE /* TextCodecUTF8.h in Headers */,
@@ -36433,6 +36461,7 @@
 				2D22830323A8470700364B7E /* CursorMac.mm in Sources */,
 				5CBD59592280E926002B22AA /* CustomHeaderFields.cpp in Sources */,
 				4463CF682212FA68001A8577 /* DataDetectorsCoreSoftLink.mm in Sources */,
+				F050E17423AD6A800011CE47 /* DocumentTouch.cpp in Sources */,
 				6E72F54C229DCD0C00B3E151 /* ExtensionsGLANGLE.cpp in Sources */,
 				7CE6CBFD187F394900D46BF5 /* FormatConverter.cpp in Sources */,
 				5130F2F624AEA60A00E1D0A0 /* GameControllerSoftLink.mm in Sources */,
@@ -36519,6 +36548,7 @@
 				6E72F54F229DCD1300B3E151 /* TemporaryANGLESetting.cpp in Sources */,
 				CE88EE262414467B007F29C2 /* TextAlternativeWithRange.mm in Sources */,
 				51DF6D800B92A18E00C2DC85 /* ThreadCheck.mm in Sources */,
+				F050E17123AD669F0011CE47 /* TouchEvent.cpp in Sources */,
 				538EC8031F96AF81004D22A8 /* UnifiedSource1-mm.mm in Sources */,
 				538EC8021F96AF81004D22A8 /* UnifiedSource1.cpp in Sources */,
 				538EC8051F96AF81004D22A8 /* UnifiedSource2-mm.mm in Sources */,
@@ -36567,6 +36597,7 @@
 				538EC8881F993F9C004D22A8 /* UnifiedSource23.cpp in Sources */,
 				DE5F85801FA1ABF4006DB63A /* UnifiedSource24-mm.mm in Sources */,
 				538EC8891F993F9D004D22A8 /* UnifiedSource24.cpp in Sources */,
+				F050E16E23AD66630011CE47 /* TouchList.cpp in Sources */,
 				DE5F85811FA1ABF4006DB63A /* UnifiedSource25-mm.mm in Sources */,
 				538EC88A1F993F9D004D22A8 /* UnifiedSource25.cpp in Sources */,
 				DE5F85821FA1ABF4006DB63A /* UnifiedSource26-mm.mm in Sources */,
@@ -37099,6 +37130,7 @@
 				2D8B92F1203D13E1009C868F /* UnifiedSource516.cpp in Sources */,
 				2D8B92F2203D13E1009C868F /* UnifiedSource517.cpp in Sources */,
 				2D8B92F3203D13E1009C868F /* UnifiedSource518.cpp in Sources */,
+				F050E16A23AD660C0011CE47 /* Touch.cpp in Sources */,
 				2D8B92F4203D13E1009C868F /* UnifiedSource519.cpp in Sources */,
 				2D8B92F5203D13E1009C868F /* UnifiedSource520.cpp in Sources */,
 				2D8B92F6203D13E1009C868F /* UnifiedSource521.cpp in Sources */,
